@@ -19,3 +19,14 @@ def recognize_speech():
         except sr.RequestError:
             print("Could not request results from the speech recognition service")
             return None
+
+def translate_text(text, target_language='es'):
+    translator = Translator()
+    translation = translator.translate(text, dest=target_language)
+    print(f"Translated text: {translation.text}")
+    return translation.text
+
+def speak_text(text, language='es'):
+    tts = gTTS(text=text, lang=language, slow=False)
+    tts.save("translated_audio.mp3")
+    os.system("start translated_audio.mp3" if os.name == "nt" else "mpg123 translated_audio.mp3")
