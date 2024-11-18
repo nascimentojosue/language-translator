@@ -30,3 +30,24 @@ def speak_text(text, language='es'):
     tts = gTTS(text=text, lang=language, slow=False)
     tts.save("translated_audio.mp3")
     os.system("start translated_audio.mp3" if os.name == "nt" else "mpg123 translated_audio.mp3")
+
+
+def main():
+    print("Real-Time Language Translator\n")
+    target_language = input("Enter the target language code (e.g., 'es' for Spanish, 'fr' for French): ").strip()
+    
+    while True:
+        print("\nListening...")
+        spoken_text = recognize_speech()
+        if spoken_text:
+            translated_text = translate_text(spoken_text, target_language=target_language)
+            speak_text(translated_text, language=target_language)
+        
+        repeat = input("Do you want to translate another sentence? (yes/no): ").strip().lower()
+        if repeat != "yes":
+            break
+    
+    print("Exiting the translator. Goodbye!")
+
+if __name__ == "__main__":
+    main()
